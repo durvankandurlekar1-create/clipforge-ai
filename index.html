@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClipForge AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>ClipForge <span>AI</span></h1>
+    <p>Turn long videos into amazing short clips.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Create your clips</h2>
+      <label for="videoInput">Upload your video</label>
+      <input type="file" id="videoInput" accept="video/*">
+
+      <label for="videoUrl">Or paste a supported video URL</label>
+      <input type="url" id="videoUrl" placeholder="Paste video URL">
+
+      <label for="clipLength">Clip duration</label>
+      <select id="clipLength">
+        <option value="15">15 seconds</option>
+        <option value="30">30 seconds</option>
+        <option value="60">60 seconds</option>
+      </select>
+
+      <button id="previewButton">Preview video</button>
+      <div id="videoPreview"></div>
+      <p id="status">Ready to get started.</p>
+    </section>
+
+    <section class="card">
+      <h2>Editing tools</h2>
+      <button id="clipButton">Create basic clip</button>
+      <button id="hookButton">Generate hook ideas</button>
+      <button id="captionButton">Caption settings</button>
+      <button id="verticalButton">Vertical video preview</button>
+      <div id="results"></div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
