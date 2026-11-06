@@ -1,4 +1,27 @@
+function getYouTubeId(url) {
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.replace(/^www\./, "");
+    let id = "";
 
+    if (host === "youtu.be") {
+      id = parsed.pathname.slice(1).split("/")[0];
+    } else if (host === "youtube.com" || host === "m.youtube.com") {
+      if (parsed.pathname === "/watch") {
+        id = parsed.searchParams.get("v") || "";
+      } else if (
+        parsed.pathname.startsWith("/shorts/") ||
+        parsed.pathname.startsWith("/embed/")
+      ) {
+        id = parsed.pathname.split("/")[2] || "";
+      }
+    }
+
+    return /^[a-zA-Z0-9_-]{11}$/.test(id) ? id : null;
+  } catch {
+    return null;
+  }
+}
 const videoInput = document.getElementById("videoInput");
 const videoUrl = document.getElementById("videoUrl");
 const clipLength = document.getElementById("clipLength");
@@ -83,6 +106,42 @@ function getYouTubeId(url) {
 }
 
 previewButton.addEventListener("click", () => {
+  const url = videoUrl.value.trim();
+
+  if (url) {
+    const id = getYouTubeId(url);
+
+    if (!id) {
+      showStatus("Invalid YouTube link. Please check the URL.");
+      return;
+    }
+
+    const frame = document.createElement("iframe");
+
+    frame.src = "https://www.youtube-nocookie.com/embed/" + id;
+    frame.title = "YouTube video preview";
+    frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    frame.allowFullscreen = true;
+    frame.style.width = "100%";
+    frame.style.aspectRatio = "16 / 9";
+    frame.style.border = "0";
+
+    videoPreview.replaceChildren(frame);
+
+    showStatus("YouTube preview loaded. Press Play inside the video.");
+
+    return;
+  }
+
+  const player = getVideo();
+
+  if (player) {
+    player.play();
+    showStatus("Playing uploaded video.");
+  } else {
+    showStatus("Paste a YouTube link or upload a video first.");
+  }
+});
   const url = videoUrl.value.trim();
 
   if (url) {
