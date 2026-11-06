@@ -52,7 +52,79 @@ videoInput.addEventListener("change", () => {
   videoUrl.value = "";
 });
 
+
+function getYouTubeId(url) {
+  try {
+    const parsed = new URL(url);
+    let id = "";
+
+    if (parsed.hostname === "youtu.be") {
+      id = parsed.pathname.slice(1);
+    } else if (
+      parsed.hostname.endsWith("youtube.com") ||
+      parsed.hostname.endsWith("youtube-nocookie.com")
+    ) {
+      if (parsed.pathname === "/watch") {
+        id = parsed.searchParams.get("v") || "";
+      } else if (
+        parsed.pathname.startsWith("/shorts/") ||
+        parsed.pathname.startsWith("/embed/")
+      ) {
+        id = parsed.pathname.split("/")[2] || "";
+      }
+    }
+
+    return /^[a-zA-Z0-9_-]{11}$/.test(id)
+      ? id
+      : null;
+  } catch {
+    return null;
+  }
+}
+
 previewButton.addEventListener("click", () => {
+  const url = videoUrl.value.trim();
+
+  if (url) {
+    const id = getYouTubeId(url);
+
+    if (!id) {
+      showStatus("Please enter a valid YouTube link.");
+      return;
+    }
+
+    const frame = document.createElement("iframe");
+
+    frame.src =
+      "https://www.youtube-nocookie.com/embed/" + id;
+
+    frame.title = "YouTube video preview";
+    frame.allow =
+      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    frame.allowFullscreen = true;
+    frame.style.width = "100%";
+    frame.style.aspectRatio = "16 / 9";
+    frame.style.border = "0";
+
+    videoPreview.replaceChildren(frame);
+
+    showStatus(
+      "YouTube video loaded! Upload your authorized video file to create editable clips."
+    );
+
+    return;
+  }
+
+  const player = getVideo();
+
+  if (player) {
+    player.play();
+    showStatus("Playing your uploaded video.");
+  } else {
+    showStatus("Please paste a YouTube link or upload a video.");
+  }
+});
+
   const player = getVideo();
 
   if (player) {
