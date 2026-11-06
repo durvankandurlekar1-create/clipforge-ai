@@ -1,0 +1,87 @@
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #0b1020;
+  color: #f5f7ff;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  text-align: center;
+  padding: 30px 15px;
+  background: #121a30;
+}
+
+header h1 {
+  font-size: 30px;
+}
+
+header span {
+  color: #8b9cff;
+}
+
+header p {
+  color: #bdc7df;
+}
+
+main {
+  max-width: 850px;
+  margin: auto;
+  padding: 18px;
+}
+
+.card {
+  background: #151e35;
+  border: 1px solid #2c3959;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin: 18px 0 8px;
+}
+
+input, select, button {
+  width: 100%;
+  padding: 13px;
+  border-radius: 9px;
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+input, select {
+  background: #0b1020;
+  color: white;
+  border: 1px solid #435174;
+}
+
+button {
+  border: none;
+  background: #7185ff;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#videoPreview video {
+  width: 100%;
+  margin-top: 16px;
+  border-radius: 10px;
+}
+
+#status, #results {
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 15px;
+  }
+}
